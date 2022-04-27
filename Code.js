@@ -1,9 +1,15 @@
 function myFunction() {
-  const templateDocFileLevel1 = DriveApp.getFileById("XXXX");
-  const docFolderLevel1 = DriveApp.getFolderById("XXXX");
-  const level1Sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
+  const templateDocFileLevel1 = DriveApp.getFileById(
+    "XXXX"
+  );
+  const docFolderLevel1 = DriveApp.getFolderById(
+    "XXXX"
+  );
+  const level1Sheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
 
-  const currentSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
+  const currentSheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
 
   const levels = [1];
   const level = 1;
@@ -11,17 +17,18 @@ function myFunction() {
 
   const data = currentSheet.getRange(2, 1, 24, 12).getValues();
   // Loop over all units
-  units.forEach(unit => {
+  units.forEach((unit) => {
     const unit_number = Number(unit);
-    const lessons = (unit_number === 1) ? [1, 2] : [1, 2, 3, 4];
+    const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
     // Loop over all lessons (only 2 in Unit 1)
-    lessons.forEach(lesson => {
+    lessons.forEach((lesson) => {
       // Set vars
       const level_number = Number(level);
       const lesson_number = Number(lesson);
-      const starting_row = (unit_number === 1) ?
-                            0 + ((lesson_number - 1) * 4) :
-                            8 + ((unit_number - 2) * 16) + ((lesson_number - 1) * 4);
+      const starting_row =
+        unit_number === 1
+          ? 0 + (lesson_number - 1) * 4
+          : 8 + (unit_number - 2) * 16 + (lesson_number - 1) * 4;
       const starting_col = 3;
       const lesson_title = data[starting_row][starting_col];
       const introduction_en = data[starting_row][starting_col + 1];
@@ -59,7 +66,10 @@ function myFunction() {
       // Logger.log(str);
 
       // make new temporary Doc
-      const newFile = templateDocFileLevel1.makeCopy(`Test - NELC${level_number}U${unit_number}L${lesson_number}`, docFolderLevel1);
+      const newFile = templateDocFileLevel1.makeCopy(
+        `Test - NELC${level_number}U${unit_number}L${lesson_number}`,
+        docFolderLevel1
+      );
       const newFileDoc = DocumentApp.openById(newFile.getId());
       const body = newFileDoc.getBody();
       body.replaceText("{{level_number}}", level_number);
@@ -89,6 +99,6 @@ function myFunction() {
       body.replaceText("{{extra3_en}}", extra3_en);
       body.replaceText("{{extra3_ja}}", extra3_ja);
       newFileDoc.saveAndClose();
-    })
+    });
   });
 }
