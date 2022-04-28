@@ -1,3 +1,26 @@
+function myFunction() {
+  const level1Sheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
+
+  const currentSheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
+
+  const levels = [1];
+  const level = 1;
+  const units = [1, 2];
+
+  const data = currentSheet.getRange(2, 1, 24, 12).getValues();
+  // Loop over all units
+  units.forEach((unit) => {
+    const unit_number = Number(unit);
+    const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
+    // Loop over all lessons (only 2 in Unit 1)
+    lessons.forEach((lesson) => {
+      createLessonDoc(level, unit, lesson, data);
+    });
+  });
+}
+
 function createLessonDoc(level, unit, lesson, data) {
   // Set vars
   const templateDocFileLevel1 = DriveApp.getFileById(
@@ -87,27 +110,4 @@ function createLessonDoc(level, unit, lesson, data) {
   body.replaceText("{{extra3_en}}", extra3_en);
   body.replaceText("{{extra3_ja}}", extra3_ja);
   newFileDoc.saveAndClose();
-}
-
-function myFunction() {
-  const level1Sheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
-
-  const currentSheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
-
-  const levels = [1];
-  const level = 1;
-  const units = [1, 2];
-
-  const data = currentSheet.getRange(2, 1, 24, 12).getValues();
-  // Loop over all units
-  units.forEach((unit) => {
-    const unit_number = Number(unit);
-    const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
-    // Loop over all lessons (only 2 in Unit 1)
-    lessons.forEach((lesson) => {
-      createLessonDoc(level, unit, lesson, data);
-    });
-  });
 }
