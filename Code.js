@@ -74,7 +74,6 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   // });
   // Logger.log(str);
 
-  // make new temporary Doc
   // Check if a file already exists with this name, and move to trash if it does
   const oldFiles = docFolderLevel1.getFilesByName(newFilename);
   while (oldFiles.hasNext()) {
@@ -121,7 +120,13 @@ function createPDF(docFileID) {
   const doc = DriveApp.getFileById(docFileID);
 
   docBlob = doc.getAs("application/pdf");
-  docBlob.setName(doc.getName() + ".pdf");
+  pdfFileName = doc.getName() + ".pdf";
+  // Check if a file already exists with this name, and move to trash if it does
+  const oldFiles = pdfFolderLevel1.getFilesByName(pdfFileName);
+  while (oldFiles.hasNext()) {
+    oldFiles.next().setTrashed(true);
+  }
+  docBlob.setName(pdfFileName);
   const file = pdfFolderLevel1.createFile(docBlob);
   return file.getId;
 }
