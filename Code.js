@@ -16,12 +16,14 @@ function myFunction() {
     const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
     // Loop over all lessons (only 2 in Unit 1)
     lessons.forEach((lesson) => {
-      createLessonDoc(level, unit, lesson, data);
+      const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
+      const docID = createLessonDoc(level, unit, lesson, data, newFilename);
+      createPDF(docID);
     });
   });
 }
 
-function createLessonDoc(level, unit, lesson, data) {
+function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Set vars
   const templateDocFileLevel1 = DriveApp.getFileById(
     "XXXX"
@@ -73,7 +75,6 @@ function createLessonDoc(level, unit, lesson, data) {
   // Logger.log(str);
 
   // make new temporary Doc
-  const newFilename = `Test - NELC${level_number}U${unit_number}L${lesson_number}`;
   // Check if a file already exists with this name, and move to trash if it does
   const oldFiles = docFolderLevel1.getFilesByName(newFilename);
   while (oldFiles.hasNext()) {
@@ -110,4 +111,17 @@ function createLessonDoc(level, unit, lesson, data) {
   body.replaceText("{{extra3_en}}", extra3_en);
   body.replaceText("{{extra3_ja}}", extra3_ja);
   newFileDoc.saveAndClose();
+  return newFile.getId();
+}
+
+function createPDF(docFileID) {
+  const pdfFolderLevel1 = DriveApp.getFolderById(
+    "XXXX"
+  );
+  const doc = DriveApp.getFileById(docFileID);
+
+  docBlob = doc.getAs("application/pdf");
+  docBlob.setName(doc.getName() + ".pdf");
+  const file = pdfFolderLevel1.createFile(docBlob);
+  return file.getId;
 }
