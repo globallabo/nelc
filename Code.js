@@ -1,3 +1,4 @@
+// Main function
 function myFunction() {
   const level1Sheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
@@ -9,12 +10,15 @@ function myFunction() {
   const level = 1;
   const units = [1, 2];
 
+  // The data in the sheet begins on the second row and first column
+  // The number of rows and columns should be increased when more lessons are added
   const data = currentSheet.getRange(2, 1, 24, 12).getValues();
   // Loop over all units
   units.forEach((unit) => {
     const unit_number = Number(unit);
+    // There are only 2 lessons in Unit 1, but 4 in all other units
     const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
-    // Loop over all lessons (only 2 in Unit 1)
+    // Loop over all lessons
     lessons.forEach((lesson) => {
       const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
       const docID = createLessonDoc(level, unit, lesson, data, newFilename);
@@ -23,6 +27,7 @@ function myFunction() {
   });
 }
 
+// Create the Google Docs file for one lesson
 function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Set vars
   const templateDocFileLevel1 = DriveApp.getFileById(
@@ -34,10 +39,15 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   const level_number = Number(level);
   const unit_number = Number(unit);
   const lesson_number = Number(lesson);
+  // The starting row to use from the GS data depends on the unit and lesson numbers,
+  //  and is complicated by the fact that Unit 1 only has 2 lessons.
+  // So if we're doing Unit 1, we only worry about the lesson number. But if it's
+  //  another unit, we need to add the rows for Unit 1 and then factor in the unit.
   const starting_row =
     unit_number === 1
       ? 0 + (lesson_number - 1) * 4
       : 8 + (unit_number - 2) * 16 + (lesson_number - 1) * 4;
+  // The starting column is always the third one
   const starting_col = 3;
   const lesson_title = data[starting_row][starting_col];
   const introduction_en = data[starting_row][starting_col + 1];
@@ -113,12 +123,14 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   return newFile.getId();
 }
 
+// Create the PDF file for one lesson
 function createPDF(docFileID) {
   const pdfFolderLevel1 = DriveApp.getFolderById(
     "XXXX"
   );
   const doc = DriveApp.getFileById(docFileID);
 
+  // first, we need to make a blob which will contain the data from the Doc as PDF
   docBlob = doc.getAs("application/pdf");
   pdfFileName = doc.getName() + ".pdf";
   // Check if a file already exists with this name, and move to trash if it does
