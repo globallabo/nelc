@@ -3,26 +3,28 @@ function myFunction() {
   const level1Sheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
 
-  const currentSheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
-
   const levels = [1];
-  const level = 1;
   const units = [1, 2];
 
-  // The data in the sheet begins on the second row and first column
-  // The number of rows and columns should be increased when more lessons are added
-  const data = currentSheet.getRange(2, 1, 24, 12).getValues();
-  // Loop over all units
-  units.forEach((unit) => {
-    const unit_number = Number(unit);
-    // There are only 2 lessons in Unit 1, but 4 in all other units
-    const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
-    // Loop over all lessons
-    lessons.forEach((lesson) => {
-      const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
-      const docID = createLessonDoc(level, unit, lesson, data, newFilename);
-      createPDF(docID);
+  levels.forEach((level) => {
+    // Tabs in the Sheet are named by level
+    const currentSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
+      `Level ${level}`
+    );
+    // The data in the sheet begins on the second row and first column
+    // The number of rows and columns should be increased when more lessons are added
+    const data = currentSheet.getRange(2, 1, 24, 12).getValues();
+    // Loop over all units
+    units.forEach((unit) => {
+      const unit_number = Number(unit);
+      // There are only 2 lessons in Unit 1, but 4 in all other units
+      const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
+      // Loop over all lessons
+      lessons.forEach((lesson) => {
+        const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
+        const docID = createLessonDoc(level, unit, lesson, data, newFilename);
+        createPDF(docID);
+      });
     });
   });
 }
