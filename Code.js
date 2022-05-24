@@ -1,5 +1,13 @@
+//Create menu in Google Sheets UI to run functions
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  const menu = ui.createMenu("Automation");
+  menu.addItem("Create Docs and PDFs", "main");
+  menu.addToUi();
+}
+
 // Main function
-function myFunction() {
+function main() {
   const levels = [1, 2];
   const units = [1, 2];
 
