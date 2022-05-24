@@ -1,9 +1,6 @@
 // Main function
 function myFunction() {
-  const level1Sheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Level 1");
-
-  const levels = [1];
+  const levels = [1, 2];
   const units = [1, 2];
 
   levels.forEach((level) => {
@@ -23,7 +20,7 @@ function myFunction() {
       lessons.forEach((lesson) => {
         const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
         const docID = createLessonDoc(level, unit, lesson, data, newFilename);
-        createPDF(docID);
+        createPDF(level, docID);
       });
     });
   });
@@ -31,13 +28,26 @@ function myFunction() {
 
 // Create the Google Docs file for one lesson
 function createLessonDoc(level, unit, lesson, data, newFilename) {
-  // Set vars
-  const templateDocFileLevel1 = DriveApp.getFileById(
-    "XXXX"
-  );
-  const docFolderLevel1 = DriveApp.getFolderById(
-    "XXXX"
-  );
+  // Set template and folder vars depending on level
+  // Level 1 template: XXXX
+  // Level 1 Doc folder: XXXX
+  // Level 1 PDF folder: XXXX
+  // Level 2 template: XXXX
+  // Level 2 Doc folder: XXXX
+  let templateDocFile, docFolder;
+  if (level === 1) {
+    templateDocFile = DriveApp.getFileById(
+      "XXXX"
+    );
+    docFolder = DriveApp.getFolderById("XXXX");
+  } else if (level === 2) {
+    templateDocFile = DriveApp.getFileById(
+      "XXXX"
+    );
+    docFolder = DriveApp.getFolderById("XXXX");
+  } else {
+    Logger.log(`Level ${level} is not valid.`);
+  }
   const level_number = Number(level);
   const unit_number = Number(unit);
   const lesson_number = Number(lesson);
@@ -87,12 +97,12 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Logger.log(str);
 
   // Check if a file already exists with this name, and move to trash if it does
-  const oldFiles = docFolderLevel1.getFilesByName(newFilename);
+  const oldFiles = docFolder.getFilesByName(newFilename);
   while (oldFiles.hasNext()) {
     oldFiles.next().setTrashed(true);
   }
 
-  const newFile = templateDocFileLevel1.makeCopy(newFilename, docFolderLevel1);
+  const newFile = templateDocFile.makeCopy(newFilename, docFolder);
   const newFileDoc = DocumentApp.openById(newFile.getId());
   const body = newFileDoc.getBody();
   body.replaceText("{{level_number}}", level_number);
@@ -126,21 +136,30 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
 }
 
 // Create the PDF file for one lesson
-function createPDF(docFileID) {
-  const pdfFolderLevel1 = DriveApp.getFolderById(
-    "XXXX"
-  );
+function createPDF(level, docFileID) {
+  // Set folder var depending on level
+  // Level 1 PDF folder: XXXX
+  // Level 2 PDF folder: XXXX
+  let pdfFolder;
+  if (level === 1) {
+    pdfFolder = DriveApp.getFolderById("XXXX");
+  } else if (level === 2) {
+    pdfFolder = DriveApp.getFolderById("XXXX");
+  } else {
+    Logger.log(`Level ${level} is not valid.`);
+  }
+
   const doc = DriveApp.getFileById(docFileID);
 
   // first, we need to make a blob which will contain the data from the Doc as PDF
   docBlob = doc.getAs("application/pdf");
   pdfFileName = doc.getName() + ".pdf";
   // Check if a file already exists with this name, and move to trash if it does
-  const oldFiles = pdfFolderLevel1.getFilesByName(pdfFileName);
+  const oldFiles = pdfFolder.getFilesByName(pdfFileName);
   while (oldFiles.hasNext()) {
     oldFiles.next().setTrashed(true);
   }
   docBlob.setName(pdfFileName);
-  const file = pdfFolderLevel1.createFile(docBlob);
+  const file = pdfFolder.createFile(docBlob);
   return file.getId;
 }
