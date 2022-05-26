@@ -26,7 +26,7 @@ function main() {
       const lessons = unit_number === 1 ? [1, 2] : [1, 2, 3, 4];
       // Loop over all lessons
       lessons.forEach((lesson) => {
-        const newFilename = `Test - NELC${level}U${unit}L${lesson}`;
+        const newFilename = `NELC${level}U${unit}L${lesson}`;
         const docID = createLessonDoc(level, unit, lesson, data, newFilename);
         createPDF(level, docID);
       });
