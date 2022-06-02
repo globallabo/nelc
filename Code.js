@@ -18,7 +18,7 @@ function main() {
     );
     // The data in the sheet begins on the second row and first column
     // The number of rows and columns should be increased when more lessons are added
-    const data = currentSheet.getRange(2, 1, 24, 12).getValues();
+    const data = currentSheet.getRange(2, 1, 88, 12).getValues();
     // Loop over all units
     units.forEach((unit) => {
       const unit_number = Number(unit);
