@@ -18,7 +18,7 @@ function main() {
     );
     // The data in the sheet begins on the second row and first column
     // The number of rows and columns should be increased when more lessons are added
-    const data = currentSheet.getRange(2, 1, 88, 12).getValues();
+    const data = currentSheet.getRange(2, 1, 88, 13).getValues();
     // Loop over all units
     units.forEach((unit) => {
       const unit_number = Number(unit);
@@ -69,29 +69,30 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
       : 8 + (unit_number - 2) * 16 + (lesson_number - 1) * 4;
   // The starting column is always the third one
   const starting_col = 3;
-  const lesson_title = data[starting_row][starting_col];
-  const introduction_en = data[starting_row][starting_col + 1];
-  const introduction_ja = data[starting_row][starting_col + 2];
-  const conversation1_en = data[starting_row][starting_col + 3];
-  const conversation1_ja = data[starting_row][starting_col + 4];
-  const conversation2_en = data[starting_row + 1][starting_col + 3];
-  const conversation2_ja = data[starting_row + 1][starting_col + 4];
-  const conversation3_en = data[starting_row + 2][starting_col + 3];
-  const conversation3_ja = data[starting_row + 2][starting_col + 4];
-  const conversation4_en = data[starting_row + 3][starting_col + 3];
-  const conversation4_ja = data[starting_row + 3][starting_col + 4];
-  const vocab1_en = data[starting_row][starting_col + 5];
-  const vocab1_ja = data[starting_row][starting_col + 6];
-  const vocab2_en = data[starting_row + 1][starting_col + 5];
-  const vocab2_ja = data[starting_row + 1][starting_col + 6];
-  const vocab3_en = data[starting_row + 2][starting_col + 5];
-  const vocab3_ja = data[starting_row + 2][starting_col + 6];
-  const extra1_en = data[starting_row][starting_col + 7];
-  const extra1_ja = data[starting_row][starting_col + 8];
-  const extra2_en = data[starting_row + 1][starting_col + 7];
-  const extra2_ja = data[starting_row + 1][starting_col + 8];
-  const extra3_en = data[starting_row + 2][starting_col + 7];
-  const extra3_ja = data[starting_row + 2][starting_col + 8];
+  const lesson_date = data[starting_row][starting_col];
+  const lesson_title = data[starting_row][starting_col + 1];
+  const introduction_en = data[starting_row][starting_col + 2];
+  const introduction_ja = data[starting_row][starting_col + 3];
+  const conversation1_en = data[starting_row][starting_col + 4];
+  const conversation1_ja = data[starting_row][starting_col + 5];
+  const conversation2_en = data[starting_row + 1][starting_col + 4];
+  const conversation2_ja = data[starting_row + 1][starting_col + 5];
+  const conversation3_en = data[starting_row + 2][starting_col + 4];
+  const conversation3_ja = data[starting_row + 2][starting_col + 5];
+  const conversation4_en = data[starting_row + 3][starting_col + 4];
+  const conversation4_ja = data[starting_row + 3][starting_col + 5];
+  const vocab1_en = data[starting_row][starting_col + 6];
+  const vocab1_ja = data[starting_row][starting_col + 7];
+  const vocab2_en = data[starting_row + 1][starting_col + 6];
+  const vocab2_ja = data[starting_row + 1][starting_col + 7];
+  const vocab3_en = data[starting_row + 2][starting_col + 6];
+  const vocab3_ja = data[starting_row + 2][starting_col + 7];
+  const extra1_en = data[starting_row][starting_col + 8];
+  const extra1_ja = data[starting_row][starting_col + 9];
+  const extra2_en = data[starting_row + 1][starting_col + 8];
+  const extra2_ja = data[starting_row + 1][starting_col + 9];
+  const extra3_en = data[starting_row + 2][starting_col + 8];
+  const extra3_ja = data[starting_row + 2][starting_col + 9];
 
   // const rtRuns = conversation4_en.getRuns();
   // let str = "";
@@ -112,6 +113,8 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
 
   const newFile = templateDocFile.makeCopy(newFilename, docFolder);
   const newFileDoc = DocumentApp.openById(newFile.getId());
+  const header = newFileDoc.getHeader();
+  header.replaceText("{{lesson_date}}", lesson_date);
   const body = newFileDoc.getBody();
   body.replaceText("{{level_number}}", level_number);
   body.replaceText("{{unit_number}}", unit_number);
