@@ -56,43 +56,43 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   } else {
     Logger.log(`Level ${level} is not valid.`);
   }
-  const level_number = Number(level);
-  const unit_number = Number(unit);
-  const lesson_number = Number(lesson);
   // The starting row to use from the GS data depends on the unit and lesson numbers,
   //  and is complicated by the fact that Unit 1 only has 2 lessons.
   // So if we're doing Unit 1, we only worry about the lesson number. But if it's
   //  another unit, we need to add the rows for Unit 1 and then factor in the unit.
   const starting_row =
-    unit_number === 1
-      ? 0 + (lesson_number - 1) * 4
-      : 8 + (unit_number - 2) * 16 + (lesson_number - 1) * 4;
+    unit === 1 ? 0 + (lesson - 1) * 4 : 8 + (unit - 2) * 16 + (lesson - 1) * 4;
   // The starting column is always the third one
   const starting_col = 3;
-  const lesson_date = data[starting_row][starting_col];
-  const lesson_title = data[starting_row][starting_col + 1];
-  const introduction_en = data[starting_row][starting_col + 2];
-  const introduction_ja = data[starting_row][starting_col + 3];
-  const conversation1_en = data[starting_row][starting_col + 4];
-  const conversation1_ja = data[starting_row][starting_col + 5];
-  const conversation2_en = data[starting_row + 1][starting_col + 4];
-  const conversation2_ja = data[starting_row + 1][starting_col + 5];
-  const conversation3_en = data[starting_row + 2][starting_col + 4];
-  const conversation3_ja = data[starting_row + 2][starting_col + 5];
-  const conversation4_en = data[starting_row + 3][starting_col + 4];
-  const conversation4_ja = data[starting_row + 3][starting_col + 5];
-  const vocab1_en = data[starting_row][starting_col + 6];
-  const vocab1_ja = data[starting_row][starting_col + 7];
-  const vocab2_en = data[starting_row + 1][starting_col + 6];
-  const vocab2_ja = data[starting_row + 1][starting_col + 7];
-  const vocab3_en = data[starting_row + 2][starting_col + 6];
-  const vocab3_ja = data[starting_row + 2][starting_col + 7];
-  const extra1_en = data[starting_row][starting_col + 8];
-  const extra1_ja = data[starting_row][starting_col + 9];
-  const extra2_en = data[starting_row + 1][starting_col + 8];
-  const extra2_ja = data[starting_row + 1][starting_col + 9];
-  const extra3_en = data[starting_row + 2][starting_col + 8];
-  const extra3_ja = data[starting_row + 2][starting_col + 9];
+  const content = {
+    level_number: Number(level),
+    unit_number: Number(unit),
+    lesson_number: Number(lesson),
+    lesson_date: data[starting_row][starting_col],
+    lesson_title: data[starting_row][starting_col + 1],
+    introduction_en: data[starting_row][starting_col + 2],
+    introduction_ja: data[starting_row][starting_col + 3],
+    conversation1_en: data[starting_row][starting_col + 4],
+    conversation1_ja: data[starting_row][starting_col + 5],
+    conversation2_en: data[starting_row + 1][starting_col + 4],
+    conversation2_ja: data[starting_row + 1][starting_col + 5],
+    conversation3_en: data[starting_row + 2][starting_col + 4],
+    conversation3_ja: data[starting_row + 2][starting_col + 5],
+    conversation4_en: data[starting_row + 3][starting_col + 4],
+    conversation4_ja: data[starting_row + 3][starting_col + 5],
+    vocab1_en: data[starting_row][starting_col + 6],
+    vocab1_ja: data[starting_row][starting_col + 7],
+    vocab2_en: data[starting_row + 1][starting_col + 6],
+    vocab2_ja: data[starting_row + 1][starting_col + 7],
+    vocab3_en: data[starting_row + 2][starting_col + 6],
+    vocab3_ja: data[starting_row + 2][starting_col + 7],
+    extra1_en: data[starting_row][starting_col + 8],
+    extra1_ja: data[starting_row][starting_col + 9],
+    extra2_en: data[starting_row + 1][starting_col + 8],
+    extra2_ja: data[starting_row + 1][starting_col + 9],
+    extra3_en: data[starting_row + 2][starting_col + 8],
+    extra3_ja: data[starting_row + 2][starting_col + 9],
+  };
 
   // const rtRuns = conversation4_en.getRuns();
   // let str = "";
@@ -114,34 +114,34 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   const newFile = templateDocFile.makeCopy(newFilename, docFolder);
   const newFileDoc = DocumentApp.openById(newFile.getId());
   const header = newFileDoc.getHeader();
-  header.replaceText("{{lesson_date}}", lesson_date);
+  header.replaceText("{{lesson_date}}", content.lesson_date);
   const body = newFileDoc.getBody();
-  body.replaceText("{{level_number}}", level_number);
-  body.replaceText("{{unit_number}}", unit_number);
-  body.replaceText("{{lesson_number}}", lesson_number);
-  body.replaceText("{{lesson_title}}", lesson_title);
-  body.replaceText("{{introduction_en}}", introduction_en);
-  body.replaceText("{{introduction_ja}}", introduction_ja);
-  body.replaceText("{{conversation1_en}}", conversation1_en);
-  body.replaceText("{{conversation1_ja}}", conversation1_ja);
-  body.replaceText("{{conversation2_en}}", conversation2_en);
-  body.replaceText("{{conversation2_ja}}", conversation2_ja);
-  body.replaceText("{{conversation3_en}}", conversation3_en);
-  body.replaceText("{{conversation3_ja}}", conversation3_ja);
-  body.replaceText("{{conversation4_en}}", conversation4_en);
-  body.replaceText("{{conversation4_ja}}", conversation4_ja);
-  body.replaceText("{{vocab1_en}}", vocab1_en);
-  body.replaceText("{{vocab1_ja}}", vocab1_ja);
-  body.replaceText("{{vocab2_en}}", vocab2_en);
-  body.replaceText("{{vocab2_ja}}", vocab2_ja);
-  body.replaceText("{{vocab3_en}}", vocab3_en);
-  body.replaceText("{{vocab3_ja}}", vocab3_ja);
-  body.replaceText("{{extra1_en}}", extra1_en);
-  body.replaceText("{{extra1_ja}}", extra1_ja);
-  body.replaceText("{{extra2_en}}", extra2_en);
-  body.replaceText("{{extra2_ja}}", extra2_ja);
-  body.replaceText("{{extra3_en}}", extra3_en);
-  body.replaceText("{{extra3_ja}}", extra3_ja);
+  body.replaceText("{{level_number}}", content.level_number);
+  body.replaceText("{{unit_number}}", content.unit_number);
+  body.replaceText("{{lesson_number}}", content.lesson_number);
+  body.replaceText("{{lesson_title}}", content.lesson_title);
+  body.replaceText("{{introduction_en}}", content.introduction_en);
+  body.replaceText("{{introduction_ja}}", content.introduction_ja);
+  body.replaceText("{{conversation1_en}}", content.conversation1_en);
+  body.replaceText("{{conversation1_ja}}", content.conversation1_ja);
+  body.replaceText("{{conversation2_en}}", content.conversation2_en);
+  body.replaceText("{{conversation2_ja}}", content.conversation2_ja);
+  body.replaceText("{{conversation3_en}}", content.conversation3_en);
+  body.replaceText("{{conversation3_ja}}", content.conversation3_ja);
+  body.replaceText("{{conversation4_en}}", content.conversation4_en);
+  body.replaceText("{{conversation4_ja}}", content.conversation4_ja);
+  body.replaceText("{{vocab1_en}}", content.vocab1_en);
+  body.replaceText("{{vocab1_ja}}", content.vocab1_ja);
+  body.replaceText("{{vocab2_en}}", content.vocab2_en);
+  body.replaceText("{{vocab2_ja}}", content.vocab2_ja);
+  body.replaceText("{{vocab3_en}}", content.vocab3_en);
+  body.replaceText("{{vocab3_ja}}", content.vocab3_ja);
+  body.replaceText("{{extra1_en}}", content.extra1_en);
+  body.replaceText("{{extra1_ja}}", content.extra1_ja);
+  body.replaceText("{{extra2_en}}", content.extra2_en);
+  body.replaceText("{{extra2_ja}}", content.extra2_ja);
+  body.replaceText("{{extra3_en}}", content.extra3_en);
+  body.replaceText("{{extra3_ja}}", content.extra3_ja);
   newFileDoc.saveAndClose();
   return newFile.getId();
 }
