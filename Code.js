@@ -94,17 +94,6 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
     extra3_ja: data[starting_row + 2][starting_col + 9],
   };
 
-  // const rtRuns = conversation4_en.getRuns();
-  // let str = "";
-  // rtRuns.forEach(run => {
-  //   str += run.getText();
-  //   if(run.getTextStyle().isItalic()) {
-  //     Logger.log(run.getStartIndex());
-  //     Logger.log(run.getEndIndex());
-  //   }
-  // });
-  // Logger.log(str);
-
   // Check if a file already exists with this name, and move to trash if it does
   const oldFiles = docFolder.getFilesByName(newFilename);
   while (oldFiles.hasNext()) {
