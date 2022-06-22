@@ -42,6 +42,8 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Level 1 PDF folder: XXXX
   // Level 2 template: XXXX
   // Level 2 Doc folder: XXXX
+  // Trash folder: XXXX
+  let trashFolder = DriveApp.getFolderById("XXXX");
   let templateDocFile, docFolder;
   if (level === 1) {
     templateDocFile = DriveApp.getFileById(
@@ -97,7 +99,10 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Check if a file already exists with this name, and move to trash if it does
   const oldFiles = docFolder.getFilesByName(newFilename);
   while (oldFiles.hasNext()) {
-    oldFiles.next().setTrashed(true);
+    // Setting as trashed is only possible for the file's owner, so other editors
+    //  won't be able to run the script. Instead send to a shared folder for trash.
+    // oldFiles.next().setTrashed(true);
+    oldFiles.next().moveTo(trashFolder);
   }
 
   const newFile = templateDocFile.makeCopy(newFilename, docFolder);
@@ -140,6 +145,8 @@ function createPDF(level, docFileID) {
   // Set folder var depending on level
   // Level 1 PDF folder: XXXX
   // Level 2 PDF folder: XXXX
+  // Trash folder: XXXX
+  let trashFolder = DriveApp.getFolderById("XXXX");
   let pdfFolder;
   if (level === 1) {
     pdfFolder = DriveApp.getFolderById("XXXX");
@@ -157,7 +164,10 @@ function createPDF(level, docFileID) {
   // Check if a file already exists with this name, and move to trash if it does
   const oldFiles = pdfFolder.getFilesByName(pdfFileName);
   while (oldFiles.hasNext()) {
-    oldFiles.next().setTrashed(true);
+    // Setting as trashed is only possible for the file's owner, so other editors
+    //  won't be able to run the script. Instead send to a shared folder for trash.
+    // oldFiles.next().setTrashed(true);
+    oldFiles.next().moveTo(trashFolder);
   }
   docBlob.setName(pdfFileName);
   const file = pdfFolder.createFile(docBlob);
