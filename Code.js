@@ -37,12 +37,6 @@ function main() {
 // Create the Google Docs file for one lesson
 function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Set template and folder vars depending on level
-  // Level 1 template: XXXX
-  // Level 1 Doc folder: XXXX
-  // Level 1 PDF folder: XXXX
-  // Level 2 template: XXXX
-  // Level 2 Doc folder: XXXX
-  // Trash folder: XXXX
 	const scriptProperties = PropertiesService.getScriptProperties();
   let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
   let templateDocFile, docFolder;
@@ -140,9 +134,6 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
 // Create the PDF file for one lesson
 function createPDF(level, docFileID) {
   // Set folder var depending on level
-  // Level 1 PDF folder: XXXX
-  // Level 2 PDF folder: XXXX
-  // Trash folder: XXXX
 	const scriptProperties = PropertiesService.getScriptProperties();
   let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
   let pdfFolder;
