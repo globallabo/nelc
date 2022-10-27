@@ -1,5 +1,7 @@
 # NELC Curriculum Generator
 
+![An example lesson handout](/nelc.png)
+
 Using Google Apps Script, it is possible to automatically generate documents based on a template made with Google Docs and content stored in Google Sheets.
 
 The script should be created on the Google Sheets spreadsheet. The Google Docs templates and Drive folders should be supplied as environment variables by using [the Properties Service](https://developers.google.com/apps-script/guides/properties#manage_script_properties_manually).
