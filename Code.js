@@ -43,18 +43,15 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Level 2 template: XXXX
   // Level 2 Doc folder: XXXX
   // Trash folder: XXXX
-  let trashFolder = DriveApp.getFolderById("XXXX");
+	const scriptProperties = PropertiesService.getScriptProperties();
+  let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
   let templateDocFile, docFolder;
   if (level === 1) {
-    templateDocFile = DriveApp.getFileById(
-      "XXXX"
-    );
-    docFolder = DriveApp.getFolderById("XXXX");
+    templateDocFile = DriveApp.getFileById(scriptProperties.getProperty("TEMPLATE_DOC_L1"));
+    docFolder = DriveApp.getFolderById(scriptProperties.getProperty("DOC_FOLDER_L1"));
   } else if (level === 2) {
-    templateDocFile = DriveApp.getFileById(
-      "XXXX"
-    );
-    docFolder = DriveApp.getFolderById("XXXX");
+    templateDocFile = DriveApp.getFileById(scriptProperties.getProperty("TEMPLATE_DOC_L2"));
+    docFolder = DriveApp.getFolderById(scriptProperties.getProperty("DOC_FOLDER_L2"));
   } else {
     Logger.log(`Level ${level} is not valid.`);
   }
@@ -146,12 +143,13 @@ function createPDF(level, docFileID) {
   // Level 1 PDF folder: XXXX
   // Level 2 PDF folder: XXXX
   // Trash folder: XXXX
-  let trashFolder = DriveApp.getFolderById("XXXX");
+	const scriptProperties = PropertiesService.getScriptProperties();
+  let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
   let pdfFolder;
   if (level === 1) {
-    pdfFolder = DriveApp.getFolderById("XXXX");
+    pdfFolder = DriveApp.getFolderById(scriptProperties.getProperty("PDF_FOLDER_L1"));
   } else if (level === 2) {
-    pdfFolder = DriveApp.getFolderById("XXXX");
+    pdfFolder = DriveApp.getFolderById(scriptProperties.getProperty("PDF_FOLDER_L2"));
   } else {
     Logger.log(`Level ${level} is not valid.`);
   }
