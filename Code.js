@@ -9,7 +9,7 @@ function onOpen() {
 // Main function
 function main() {
   const levels = [1, 2];
-  const units = [1, 2, 3, 4, 5];
+  const units = [1, 2, 3, 4, 5, 6];
 
   levels.forEach((level) => {
     // Tabs in the Sheet are named by level
@@ -37,15 +37,25 @@ function main() {
 // Create the Google Docs file for one lesson
 function createLessonDoc(level, unit, lesson, data, newFilename) {
   // Set template and folder vars depending on level
-	const scriptProperties = PropertiesService.getScriptProperties();
-  let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
+  const scriptProperties = PropertiesService.getScriptProperties();
+  let trashFolder = DriveApp.getFolderById(
+    scriptProperties.getProperty("TRASH_FOLDER")
+  );
   let templateDocFile, docFolder;
   if (level === 1) {
-    templateDocFile = DriveApp.getFileById(scriptProperties.getProperty("TEMPLATE_DOC_L1"));
-    docFolder = DriveApp.getFolderById(scriptProperties.getProperty("DOC_FOLDER_L1"));
+    templateDocFile = DriveApp.getFileById(
+      scriptProperties.getProperty("TEMPLATE_DOC_L1")
+    );
+    docFolder = DriveApp.getFolderById(
+      scriptProperties.getProperty("DOC_FOLDER_L1")
+    );
   } else if (level === 2) {
-    templateDocFile = DriveApp.getFileById(scriptProperties.getProperty("TEMPLATE_DOC_L2"));
-    docFolder = DriveApp.getFolderById(scriptProperties.getProperty("DOC_FOLDER_L2"));
+    templateDocFile = DriveApp.getFileById(
+      scriptProperties.getProperty("TEMPLATE_DOC_L2")
+    );
+    docFolder = DriveApp.getFolderById(
+      scriptProperties.getProperty("DOC_FOLDER_L2")
+    );
   } else {
     Logger.log(`Level ${level} is not valid.`);
   }
@@ -134,13 +144,19 @@ function createLessonDoc(level, unit, lesson, data, newFilename) {
 // Create the PDF file for one lesson
 function createPDF(level, docFileID) {
   // Set folder var depending on level
-	const scriptProperties = PropertiesService.getScriptProperties();
-  let trashFolder = DriveApp.getFolderById(scriptProperties.getProperty("TRASH_FOLDER"));
+  const scriptProperties = PropertiesService.getScriptProperties();
+  let trashFolder = DriveApp.getFolderById(
+    scriptProperties.getProperty("TRASH_FOLDER")
+  );
   let pdfFolder;
   if (level === 1) {
-    pdfFolder = DriveApp.getFolderById(scriptProperties.getProperty("PDF_FOLDER_L1"));
+    pdfFolder = DriveApp.getFolderById(
+      scriptProperties.getProperty("PDF_FOLDER_L1")
+    );
   } else if (level === 2) {
-    pdfFolder = DriveApp.getFolderById(scriptProperties.getProperty("PDF_FOLDER_L2"));
+    pdfFolder = DriveApp.getFolderById(
+      scriptProperties.getProperty("PDF_FOLDER_L2")
+    );
   } else {
     Logger.log(`Level ${level} is not valid.`);
   }
