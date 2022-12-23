@@ -9,7 +9,7 @@ function onOpen() {
 // Main function
 function main() {
   const levels = [1, 2];
-  const units = [1, 2, 3, 4, 5, 6];
+  const units = [1, 2, 3, 4, 5, 6, 7];
 
   levels.forEach((level) => {
     // Tabs in the Sheet are named by level
@@ -18,7 +18,7 @@ function main() {
     );
     // The data in the sheet begins on the second row and first column
     // The number of rows and columns should be increased when more lessons are added
-    const data = currentSheet.getRange(2, 1, 88, 13).getValues();
+    const data = currentSheet.getRange(2, 1, 185, 13).getValues();
     // Loop over all units
     units.forEach((unit) => {
       const unit_number = Number(unit);
