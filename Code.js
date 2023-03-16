@@ -9,7 +9,7 @@ function onOpen() {
 // Main function
 function main() {
   const levels = [1, 2];
-  const units = [1, 2, 3, 4, 5, 6, 7, 8];
+  const units = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   levels.forEach((level) => {
     // Tabs in the Sheet are named by level
